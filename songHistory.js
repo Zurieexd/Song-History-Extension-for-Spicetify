@@ -1206,6 +1206,124 @@
         } 
 
 
+        /* CLEAR CONFIRMATION */
+
+        .song-history-confirm-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.58);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: song-history-confirm-fade-in 120ms ease;
+        }
+
+        .song-history-confirm {
+            width: min(390px, 100%);
+            padding: 22px;
+            box-sizing: border-box;
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 14px;
+            background: rgba(25, 25, 25, 0.985);
+            box-shadow:
+                0 24px 70px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(255,255,255,0.025);
+            animation: song-history-confirm-scale-in 140ms ease;
+        }
+
+        .song-history-confirm-title {
+            margin-bottom: 8px;
+            color: rgba(255,255,255,0.96);
+            font-size: 17px;
+            line-height: 1.3;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+        }
+
+        .song-history-confirm-text {
+            margin-bottom: 20px;
+            color: rgba(255,255,255,0.52);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .song-history-confirm-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        .song-history-confirm-button {
+            height: 36px;
+            padding: 0 14px;
+            border: 1px solid rgba(255,255,255,0.075);
+            border-radius: 9px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                background 100ms ease,
+                border-color 100ms ease,
+                color 100ms ease,
+                transform 100ms ease;
+        }
+
+        .song-history-confirm-button:active {
+            transform: scale(0.96);
+        }
+
+        .song-history-confirm-cancel {
+            background: rgba(255,255,255,0.035);
+            color: rgba(255,255,255,0.62);
+        }
+
+        .song-history-confirm-cancel:hover {
+            background: rgba(255,255,255,0.07);
+            border-color: rgba(255,255,255,0.13);
+            color: rgba(255,255,255,0.94);
+        }
+
+        .song-history-confirm-clear {
+            border-color: rgba(255,65,65,0.18);
+            background: rgba(255,55,55,0.10);
+            color: #ff6b6b;
+        }
+
+        .song-history-confirm-clear:hover {
+            border-color: rgba(255,65,65,0.30);
+            background: rgba(255,55,55,0.16);
+            color: #ff8585;
+        }
+
+        @keyframes song-history-confirm-fade-in {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes song-history-confirm-scale-in {
+            from {
+                opacity: 0;
+                transform: scale(0.97) translateY(3px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+
         /* ROW */ 
 
 
@@ -2211,15 +2329,78 @@
                 return;
             }
 
-            const confirmed = window.confirm("Clear your entire listening history?");
+            const overlay = document.createElement("div");
+            overlay.className = "song-history-confirm-overlay";
 
-            if (!confirmed) {
-                return;
-            }
+            const confirmBox = document.createElement("div");
+            confirmBox.className = "song-history-confirm";
+            confirmBox.setAttribute("role", "dialog");
+            confirmBox.setAttribute("aria-modal", "true");
+            confirmBox.setAttribute("aria-label", "Clear listening history");
 
-            clearHistory();
+            const confirmTitle = document.createElement("div");
+            confirmTitle.className = "song-history-confirm-title";
+            confirmTitle.textContent = "Clear listening history?";
 
-            render();
+            const confirmText = document.createElement("div");
+            confirmText.className = "song-history-confirm-text";
+            confirmText.textContent =
+                "This will permanently remove all songs from your listening history.";
+
+            const actions = document.createElement("div");
+            actions.className = "song-history-confirm-actions";
+
+            const cancelButton = document.createElement("button");
+            cancelButton.type = "button";
+            cancelButton.className = "song-history-confirm-button song-history-confirm-cancel";
+            cancelButton.textContent = "Cancel";
+
+            const confirmButton = document.createElement("button");
+            confirmButton.type = "button";
+            confirmButton.className = "song-history-confirm-button song-history-confirm-clear";
+            confirmButton.textContent = "Clear history";
+
+            actions.appendChild(cancelButton);
+            actions.appendChild(confirmButton);
+
+            confirmBox.appendChild(confirmTitle);
+            confirmBox.appendChild(confirmText);
+            confirmBox.appendChild(actions);
+
+            overlay.appendChild(confirmBox);
+
+            const closeConfirmation = () => {
+                overlay.remove();
+                document.removeEventListener("keydown", handleKeyDown);
+            };
+
+            const handleKeyDown = (event) => {
+                if (event.key === "Escape") {
+                    closeConfirmation();
+                }
+            };
+
+            cancelButton.addEventListener("click", closeConfirmation);
+
+            confirmButton.addEventListener("click", () => {
+                clearHistory();
+                render();
+                closeConfirmation();
+            });
+
+            overlay.addEventListener("click", (event) => {
+                if (event.target === overlay) {
+                    closeConfirmation();
+                }
+            });
+
+            document.addEventListener("keydown", handleKeyDown);
+
+            shell.appendChild(overlay);
+
+            requestAnimationFrame(() => {
+                cancelButton.focus();
+            });
         });
 
         render();
