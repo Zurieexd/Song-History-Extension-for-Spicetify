@@ -1,6 +1,6 @@
 // START METADATA
 // NAME: SongHistory
-// VERSION: 1.5
+// VERSION: 0.7
 // AUTHOR: Zurieexd
 // DESCRIPTION: Local Spotify listening history tracker.
 // END METADATA
