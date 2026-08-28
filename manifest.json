@@ -1,7 +1,7 @@
 {
   "name": "songHistory",
   "description": "Local Spotify listening history tracker.",
-  "preview": "images/preview.png",
+  "preview": "./preview.png",
   "main": "songHistory.js",
   "readme": "README.md"
 }
