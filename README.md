@@ -42,3 +42,8 @@ The extension adds a control panel directly at the top of the history view:
 * **Storage Limits:** Your history safely queues up to 5,000 tracks before automatically rotating out old logs.
 * **Data Persistence:** All logs and configurations are safely stored in your client's `Spicetify.LocalStorage` layer under custom namespace keys.
 * **Developer Tools:** The extension exposes a global `window.SongHistoryDebug` object in the console, allowing you to fetch raw history objects, manually tweak thresholds, or debug playback states.
+
+## License
+
+Proprietary / All Rights Reserved. 
+This extension is free for personal use. Modification, redistribution, or commercial use of this code is strictly prohibited.
