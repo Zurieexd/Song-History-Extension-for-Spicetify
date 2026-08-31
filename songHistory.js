@@ -1,6 +1,6 @@
 // START METADATA
 // NAME: SongHistory
-// VERSION: 0.7
+// VERSION: 0.7.1
 // AUTHOR: Zurieexd
 // DESCRIPTION: Local Spotify listening history tracker.
 // END METADATA
@@ -540,51 +540,29 @@
 
         .song-history-shell {
             position: relative;
+            width: min(920px, calc(100vw - 48px));
+            height: min(730px, calc(100vh - 48px));
+            min-width: 0;
+            min-height: 0;
+            max-width: calc(100vw - 48px);
+            max-height: calc(100vh - 48px);
 
-            width:
-                min(920px, 84vw);
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
 
-            height:
-                min(730px, 74vh);
+            padding: 24px;
 
-            min-width:
-                680px;
+            background: rgba(17, 17, 17, 0.985);
 
-            min-height:
-                440px;
-
-            display:
-                flex;
-
-            flex-direction:
-                column;
-
-            box-sizing:
-                border-box;
-
-            padding:
-                24px;
-
-            background:
-                rgba(17, 17, 17, 0.985);
-
-            border:
-                1px solid
-                rgba(255,255,255,0.085);
-
-            border-radius:
-                18px;
+            border: 1px solid rgba(255,255,255,0.085);
+            border-radius: 18px;
 
             box-shadow:
-                0 24px 70px
-                rgba(0,0,0,0.52),
+                0 24px 70px rgba(0,0,0,0.52),
+                inset 0 1px 0 rgba(255,255,255,0.025);
 
-                inset
-                0 1px 0
-                rgba(255,255,255,0.025);
-
-            overflow:
-                hidden;
+            overflow: hidden;
         }
 
 
@@ -1101,8 +1079,20 @@
 
         /* LIST */
 
+        .song-history-list {
+            width: 100%;
+            max-width: 100%;
+            min-width: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
 
         .song-history-list-area {
+
+            min-width: 0;
+            
+            max-width: 100%;
+
             flex:
                 1 1 0;
 
@@ -1657,14 +1647,13 @@
 
         @media (max-width: 900px) {
             .song-history-shell {
-            width:
-            92vw;
-
-                min-width:
-                    0;
-
-                padding:
-                    20px;
+                width: calc(100vw - 32px);
+                height: calc(100vh - 32px);
+                max-width: calc(100vw - 32px);
+                max-height: calc(100vh - 32px);
+                min-width: 0;
+                min-height: 0;
+                padding: 20px;
             }
 
             .song-history-row {
@@ -1675,75 +1664,42 @@
             }
 
             .song-history-column-header {
-                display:
-                    grid;
-
+                display: grid;
                 grid-template-columns:
                     52px
                     minmax(0, 1fr)
                     auto;
-
-                align-items:
-                    center;
-
-                column-gap:
-                    15px;
-
-                min-height:
-                    22px;
-
-                padding:
-                    0
-                    10px
-                    4px;
-
-                box-sizing:
-                    border-box;
-
-                color:
-                    rgba(255,255,255,0.62);
-
-                font-size:
-                    11px;
-
-                line-height:
-                    1.2;
-
-                font-weight:
-                    800;
-
-                letter-spacing:
-                    0.10em;
-
-                text-transform:
-                    uppercase;
+                align-items: center;
+                column-gap: 15px;
+                min-height: 22px;
+                padding: 0 10px 4px;
+                box-sizing: border-box;
+                color: rgba(255,255,255,0.62);
+                font-size: 11px;
+                line-height: 1.2;
+                font-weight: 800;
+                letter-spacing: 0.10em;
+                text-transform: uppercase;
             }
 
             .song-history-column-song {
-                grid-column:
-                    2;
+                grid-column: 2;
             }
 
             .song-history-column-album {
-                display:
-                    none;
+                display: none;
             }
 
             .song-history-column-time {
-                grid-column:
-                    3;
-
-                min-width:
-                    106px;
-
-                text-align:
-                    right;
+                grid-column: 3;
+                min-width: 106px;
+                text-align: right;
             }
 
             .song-history-album {
-                display:
-                    none;
+                display: none;
             }
+
         `;
 
     // INJECT CSS
